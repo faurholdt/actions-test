@@ -24,13 +24,14 @@ jobs:
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
-          echo "JOBS_TO_DEPLOY=${{ steps.changed-yml-files.outputs.all_modified_files }}" >> "$GITHUB_OUTPUT"
+    outputs:
+      JOBS_TO_DEPLOY: ${{ steps.changed-yml-files.outputs.all_modified_files }}
 
   start-deployments:
     needs: detect-changes
     strategy:
       matrix:
-        list-of-args: ${{ steps.changed-yml-files-setter.outputs.JOBS_TO_DEPLOY }}
+        list-of-args: ${{ needs.detect-changes.outputs.JOBS_TO_DEPLOY }}
     uses: ./.github/workflows/deploy-qa-jobs.yml
     with:
       arg: ${{ matrix.list-of-args }}

@@ -1,8 +1,30 @@
 name: start workflow deployments
-on: [workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    name: Detect changed files
+    steps:
+      - name: find yaml files
+        id: changed-yml-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: models/*.{yml, yaml}
+      - name: Run step if any file(s) in the docs folder change
+        if: steps.changed-yml-files.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files in the docs folder has changed."
+          echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_changed_files }}"
+
+
+
+
   start-deployments:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         list-of-args: ['arg1', "arg2", "arg3"]

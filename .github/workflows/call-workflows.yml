@@ -17,11 +17,12 @@ jobs:
         uses: tj-actions/changed-files@v35
         with:
           files: models/*/*/**/*.{yml, yaml}
+          json: "true"
       - name: Run step if any file(s) in the docs folder change
         if: steps.changed-yml-files.outputs.any_changed == 'true'
         run: |
           echo "One or more files in the docs folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_changed_files }}"
+          echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
 
   start-deployments:
     needs: detect-changes

@@ -17,15 +17,16 @@ jobs:
         uses: tj-actions/changed-files@v35
         with:
           files: models/*/*/**/*.{yml, yaml}
-          json: "true"
+          json_raw_format: "true"
       - name: Run step if any file(s) in the docs folder change
         id: changed-yml-files-setter
         if: steps.changed-yml-files.outputs.any_changed == 'true'
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
+          echo jq 'map(select(startswith("models")) | split("/") | .[2]) | unique ' ${{ steps.changed-yml-files.outputs.all_modified_files }}
     outputs:
-      JOBS_TO_DEPLOY: jq 'map(select(startswith("models")) | split("/") | .[2]) | unique ' ${{ steps.changed-yml-files.outputs.all_modified_files }}
+      JOBS_TO_DEPLOY: steps.changed-yml-files-setter.outputs
 
   start-deployments:
     needs: detect-changes

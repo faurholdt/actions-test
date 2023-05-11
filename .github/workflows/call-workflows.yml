@@ -1,0 +1,11 @@
+name: start workflow deployments
+on: [workflow_dispatch]
+
+jobs:
+  start-deployments:
+    strategy:
+      matrix:
+        list-of-args: ['arg1', "arg2", "arg3"]
+    uses: ./.github/workflows/deploy-qa-jobs.yml
+    with:
+      arg: ${{ matrix.list-of-args }}

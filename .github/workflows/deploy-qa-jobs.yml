@@ -1,0 +1,33 @@
+name: Trigger qa deployment
+
+on:
+  workflow_call:
+    inputs:
+      arg:
+        description: Some arg.
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      arg:
+        description: Some arg.
+        required: true
+jobs:
+  plan-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Plan terraform for qa
+        run: |
+          echo planning deployment for ${{ github.event.inputs.arg }}
+
+  deploy-qa:
+    needs: plan-qa
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploy to qa
+        run: |
+          echo deployment for ${{ github.event.inputs.arg }}

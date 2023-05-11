@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Plan terraform for qa
         run: |
-          echo planning deployment for ${{ github.event.inputs.arg }}
+          echo planning deployment for ${{ inputs.arg }}
 
   deploy-qa:
     needs: plan-qa
@@ -30,4 +30,4 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy to qa
         run: |
-          echo deployment for ${{ github.event.inputs.arg }}
+          echo deployment for ${{ inputs.arg }}

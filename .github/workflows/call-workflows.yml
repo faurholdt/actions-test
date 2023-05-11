@@ -16,7 +16,7 @@ jobs:
         id: changed-yml-files
         uses: tj-actions/changed-files@v35
         with:
-          files: models/*.{yml, yaml}
+          files: models/**/*.{yml, yaml}
       - name: Run step if any file(s) in the docs folder change
         if: steps.changed-yml-files.outputs.any_changed == 'true'
         run: |

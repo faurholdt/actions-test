@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Detect changed files
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
       - name: find yaml files
         id: changed-yml-files
         uses: tj-actions/changed-files@v35

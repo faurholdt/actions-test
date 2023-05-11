@@ -28,7 +28,7 @@ jobs:
     needs: detect-changes
     strategy:
       matrix:
-        list-of-args: ['arg1', "arg2", "arg3"]
+        list-of-args: jq 'map(select(startswith("models")) | split("/") | .[2]) | unique' ${{ steps.changed-yml-files.outputs.all_modified_files }}
     uses: ./.github/workflows/deploy-qa-jobs.yml
     with:
       arg: ${{ matrix.list-of-args }}

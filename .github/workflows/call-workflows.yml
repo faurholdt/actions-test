@@ -19,10 +19,12 @@ jobs:
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_changed_files }}"
-      - name: start-deployments
-        strategy:
-          matrix:
-            list-of-args: [ 'arg1', "arg2", "arg3" ]
-        uses: ./.github/workflows/deploy-qa-jobs.yml
-        with:
-          arg: ${{ matrix.list-of-args }}
+
+  start-deployments:
+    needs: detect-changes
+    strategy:
+      matrix:
+        list-of-args: ['arg1', "arg2", "arg3"]
+    uses: ./.github/workflows/deploy-qa-jobs.yml
+    with:
+      arg: ${{ matrix.list-of-args }}

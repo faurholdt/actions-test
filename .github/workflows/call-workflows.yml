@@ -25,7 +25,7 @@ jobs:
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
     outputs:
-      JOBS_TO_DEPLOY: ${{ steps.changed-yml-files.outputs.all_modified_files }}
+      JOBS_TO_DEPLOY: jq 'map(select(startswith("models")) | split("/") | .[2]) | unique ' ${{ steps.changed-yml-files.outputs.all_modified_files }}
 
   start-deployments:
     needs: detect-changes

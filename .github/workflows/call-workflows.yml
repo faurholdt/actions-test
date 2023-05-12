@@ -29,13 +29,13 @@ jobs:
           echo '"PASSED_JOBS='$JOBS_TO_DEPLOY'"'
           echo '"test='$JOBS_TO_DEPLOY'"' >> "$GITHUB_OUTPUT"
     outputs:
-      matrix: ["foo", "bar"]
+      matrix: '["foo", "bar"]'
 
   start-deployments:
     needs: detect-changes
     strategy:
       matrix:
-        list-of-args: ${{ needs.detect-changes.outputs.matrix }}
+        list-of-args: fromjson(${{ needs.detect-changes.outputs.matrix }})
     uses: ./.github/workflows/deploy-qa-jobs.yml
     with:
       arg: ${{ matrix.list-of-args }}

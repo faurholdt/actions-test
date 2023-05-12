@@ -25,11 +25,11 @@ jobs:
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
-          JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq -c 'map(select(startswith("models")) | split("/") | .[2]) | unique')
+          JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq -c 'map(select(startswith("models")) | split("/") | .[2]) | unique | @json')
           echo '"PASSED_JOBS='$JOBS_TO_DEPLOY'"'
-          echo '"test='$JOBS_TO_DEPLOY'"' >> "$GITHUB_OUTPUT"
+          echo "matrix=$JOBS_TO_DEPLOY >> "$GITHUB_OUTPUT"
     outputs:
-      matrix: $JOBS_TO_DEPLOY
+      matrix: {{ steps.changed-yml-files-setter.outputs.matrix }}
 
   start-deployments:
     needs: detect-changes

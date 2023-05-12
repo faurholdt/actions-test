@@ -27,7 +27,7 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
           JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq 'map(select(startswith("models")) | split("/") | .[2]) | unique')
           echo '"PASSED_JOBS='$JOBS_TO_DEPLOY'"'
-          run: echo "test=hello" >> "$GITHUB_OUTPUT"
+          echo "test=hello" >> "$GITHUB_OUTPUT"
 
     outputs:
       test: ${{ steps.changed-yml-files-setter.outputs.test }}

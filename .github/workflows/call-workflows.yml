@@ -25,7 +25,8 @@ jobs:
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
-          JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq 'map(select(startswith("models")) | split("/") | .[2]) | unique') >> "$GITHUB_OUTPUT"
+          JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq 'map(select(startswith("models")) | split("/") | .[2]) | unique')
+          echo $JOBS_TO_DEPLOY
 
     outputs:
       JOBS_TO_DEPLOY: ${{ steps.changed-yml-files-setter.outputs.JOBS_TO_DEPLOY }}

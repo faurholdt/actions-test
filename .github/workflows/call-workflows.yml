@@ -29,8 +29,8 @@ jobs:
           echo \""matrix=${JOBS_TO_DEPLOY:1:-1}"\"
           echo \""matrix=${JOBS_TO_DEPLOY:1:-1}"\" >> "$GITHUB_OUTPUT"
     outputs:
-      # matrix: {{ steps.changed-yml-files-setter.outputs.matrix }}
-      matrix: "foo"
+      matrix: {{ steps.changed-yml-files-setter.outputs.matrix }}
+      #matrix: "foo"
 
   start-deployments:
     needs: detect-changes

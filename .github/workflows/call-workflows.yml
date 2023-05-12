@@ -35,7 +35,7 @@ jobs:
     needs: detect-changes
     strategy:
       matrix:
-        list-of-args: fromjson(${{ needs.detect-changes.outputs.matrix }})
+        list-of-args: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
     uses: ./.github/workflows/deploy-qa-jobs.yml
     with:
       arg: ${{ matrix.list-of-args }}

@@ -27,7 +27,7 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
           JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq -c '. | map(select(startswith("models")) | split("/") | .[2]) | unique')
           echo \""matrix=${JOBS_TO_DEPLOY:1:-1}"\"
-          echo "matrix=JOBS_TO_DEPLOY" >> "$GITHUB_OUTPUT"
+          echo "matrix=$JOBS_TO_DEPLOY" >> "$GITHUB_OUTPUT"
 
     outputs:
       matrix: ${{ steps.changed-yml-files-setter.outputs.matrix }}

@@ -27,11 +27,14 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
           JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq -c '. | map(select(startswith("models")) | split("/") | .[2]) | unique')
           echo "matrix=$JOBS_TO_DEPLOY" >> "$GITHUB_OUTPUT"
+          echo "files_found=true" >> "$GITHUB_OUTPUT"
     outputs:
       matrix: ${{ steps.changed-yml-files-setter.outputs.matrix }}
+      files_found: ${{ steps.changed-yml-files-setter.outputs.files_found }}
 
   start-deployments:
     needs: detect-changes
+    if: needs.detect-changes.outputs.files_founds == "true"
     strategy:
       fail-fast: false
       matrix:

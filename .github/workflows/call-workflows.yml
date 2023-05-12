@@ -29,7 +29,7 @@ jobs:
           echo \""matrix=${JOBS_TO_DEPLOY:1:-1}"\"
           echo "::set-output name=matrix::['foo','bar']"
     outputs:
-      matrix: {{ steps.changed-yml-files-setter.outputs.matrix }}
+      matrix: ${{ steps.changed-yml-files-setter.outputs.matrix }}
       #matrix: "[\"team_a\",\"team_b\"]"
 
   start-deployments:

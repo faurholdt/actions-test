@@ -26,16 +26,17 @@ jobs:
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
           JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq 'map(select(startswith("models")) | split("/") | .[2]) | unique')
-          echo $JOBS_TO_DEPLOY
+          echo '"PASSED_JOBS=$JOBS_TO_DEPLOY"' >> "GITHUB_OUTPUT"
+          echo '"PASSED_JOBS=$JOBS_TO_DEPLOY"'
 
     outputs:
-      JOBS_TO_DEPLOY: ${{ steps.changed-yml-files-setter.outputs.JOBS_TO_DEPLOY }}
+      JOBS_TO_DEPLOY: ${{ steps.changed-yml-files-setter.outputs.PASSED_JOBS }}
 
   start-deployments:
     needs: detect-changes
     strategy:
       matrix:
-        list-of-args: ${{ needs.detect-changes.outputs.JOBS_TO_DEPLOY }}
+        list-of-args: ${{ needs.detect-changes.outputs.PASSED_JOBS }}
     uses: ./.github/workflows/deploy-qa-jobs.yml
     with:
       arg: ${{ matrix.list-of-args }}

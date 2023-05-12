@@ -19,13 +19,14 @@ jobs:
           files: models/*/*/**/*.{yml, yaml}
           json: "true"
           json_raw_format: "true"
-      - name: Run step if any .yml or .yaml file(s) in the models sub-folders has changed
+      - name: Detect data products to deploy
         id: changed-yml-files-setter
         if: steps.changed-yml-files.outputs.any_changed == 'true'
         run: |
-          echo "One or more files in the docs folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
+          echo "One or more deployments files has changed."
+          echo "All modified files are: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
           JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq -c '. | map(select(startswith("models")) | split("/") | .[2]) | unique')
+          echo "Detected changed data products are: ${{ steps.changed-yml-files.outputs.all_modified_files }}"
           echo "matrix=$JOBS_TO_DEPLOY" >> "$GITHUB_OUTPUT"
           echo "files_found=true" >> "$GITHUB_OUTPUT"
     outputs:

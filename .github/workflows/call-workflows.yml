@@ -29,7 +29,7 @@ jobs:
           echo '"PASSED_JOBS='$JOBS_TO_DEPLOY'"'
           echo '"test='$JOBS_TO_DEPLOY'"' >> "$GITHUB_OUTPUT"
     outputs:
-      matrix: '["foo", "bar"]'
+      matrix: $JOBS_TO_DEPLOY
 
   start-deployments:
     needs: detect-changes

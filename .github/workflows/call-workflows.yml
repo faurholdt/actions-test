@@ -35,7 +35,7 @@ jobs:
 
   deploy:
     needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.files_founds }} == true
+    if: ${{ needs.detect-changes.outputs.files_founds }} == 'true'
     strategy:
       fail-fast: false
       matrix:

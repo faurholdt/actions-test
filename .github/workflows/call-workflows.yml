@@ -28,7 +28,6 @@ jobs:
           JOBS_TO_DEPLOY=$(echo '${{ steps.changed-yml-files.outputs.all_modified_files }}' | jq -c '. | map(select(startswith("models")) | split("/") | .[2]) | unique')
           echo "Detected changed data products are: $JOBS_TO_DEPLOY"
           echo "matrix=$JOBS_TO_DEPLOY" >> "$GITHUB_OUTPUT"
-#          echo "files_found=true" >> "$GITHUB_OUTPUT"
           echo files_found
     outputs:
       matrix: ${{ steps.changed-yml-files-setter.outputs.matrix }}

@@ -31,7 +31,6 @@ jobs:
           echo files_found
     outputs:
       matrix: ${{ steps.changed-yml-files-setter.outputs.matrix }}
-      files_found: ${{ steps.changed-yml-files-setter.outputs.files_found }}
 
   deploy:
     needs: detect-changes
